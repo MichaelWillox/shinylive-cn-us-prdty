@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data/
+df_clean.RDS
+prep_data.R
+.html
+.qmd
+Proceedure_files/

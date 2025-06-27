@@ -1,0 +1,151 @@
+---
+title: "Building the Shinylive App for Canada-U.S. Productivity"
+author: "Michael Willox"
+format: html
+editor: visual
+---
+
+
+## Overview
+
+This document tracks the steps, successes, and failures involved in building and deploying a Shinylive app.
+
+## Folder Structure Setup **Before** Running 'Run_Shinylive_app.R'.
+
+shinylive-cn-us-prdty
+├── app.R  
+├── df_clean.RDS  
+├── docs
+│   ├── app.json
+│   ├── edit
+│   ├── index.html
+│   ├── shinylive
+│   ├── sinylive-sw.js
+└── shinylive-cn-us-prdty.Rproj 
+
+
+├── app.R  
+├── df_clean.RDS  
+├── data  
+│   ├── cn_us_mfp.csv  
+│   ├── cn_us_mfp.RDS  
+│   ├── cn_us_mfp.xlsx  
+├── prep_data.R  
+├── Proceedure.html  
+├── Proceedure.qmd  
+├── Proceedure.rmarkdown  
+├── Proceedure_files  
+├── Run_Shinylive_app.R  
+└── shinylive-cn-us-prdty.Rproj  
+
+
+## Folder Structure Setup **After** Running 'Run_Shinylive_app.R'.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(fs)
+library(tree)
+library(cli)
+
+# Define root (relative or absolute path)
+root <- "."
+
+# List files recursively
+cat("📁 This is the folder structure for the Shinylive app:\n\n")
+
+files <- fs::dir_tree(path = root, recurse = TRUE, type = "any", n = Inf)
+```
+
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+
+cat("📁 These are the individual files:\n\n")
+print(files)
+```
+
+
+## Run `Run_Shinylive_app.R`
+
+## Tips for a Successful Export
+### Check Asset Versions:
+Use `shinylive::assets_info()` to verify that the correct web assets are installed and cached.
+
+### Update Packages if Needed:
+If you encounter issues with asset versions, try running `shinylive::assets_download()` to update your assets.
+
+### Clean Up Old Assets:
+Periodically, run `shinylive::assets_cleanup()` to remove outdated asset versions from your cache.
+
+
+When I run app.R, the shiny app runs find on my local machine, but when I run the code below, I only see a black page in my browser. I ran shinylive::assets_cleanup() to remove outdated asset versions from my cache. The rsulting message was "Keeping version 0.9.1". Why doesn't the shinylive app work even though the shiny app works fine?
+
+
+
+shinylive::export(appdir = "app", destdir = "docs")
+
+httpuv::runStaticServer("docs")
+
+
+
+Okay, this is a common issue when trying to serve a Shinylive app locally with httpuv::runStaticServer() and seeing a black page. The fact that app.R runs fine on your local machine confirms your Shiny code itself is correct. The problem lies in how Shinylive exports the app and how httpuv::runStaticServer() expects to find the index.html file.
+
+Here's a breakdown of the likely reasons and how to fix it:
+
+1. The index.html file isn't at the root of your docs directory.
+
+When shinylive::export(appdir = "app", destdir = "docs") runs, it creates a structure within docs.
+
+If your app.R file is directly inside a folder named app (e.g., my_project/app/app.R), then shinylive::export() will place the index.html (and other app files) inside a subfolder within docs.
+For example, if your app directory contains app.R, docs might end up looking like docs/app/index.html.
+However, httpuv::runStaticServer("docs") by default expects to find index.html directly at docs/index.html.
+How to Fix:
+
+Option A (Recommended): Export the app directly to docs:
+The most straightforward solution is to ensure your app.R is in the root of the directory you're exporting from, and then export directly into docs.
+
+Let's assume your app.R is in a folder named my_shinylive_app like this:
+
+my_project/
+├── my_shinylive_app/
+│   └── app.R
+└── ...
+You should then run:
+
+R
+
+shinylive::export(appdir = "my_shinylive_app", destdir = "docs")
+This will put index.html (and a folder like my_shinylive_app_files) directly inside docs. When you navigate to http://127.0.0.1:xxxx/ (the address httpuv provides), it will find index.html.
+
+Option B (If you must keep the app subfolder structure): Navigate to the subfolder in the browser.
+If your docs folder does contain docs/app/index.html, and you run httpuv::runStaticServer("docs"), then the base URL will be http://127.0.0.1:xxxx/. To see your app, you would need to manually navigate to:
+http://127.0.0.1:xxxx/app/
+
+This is less ideal for sharing, but it would explain the black page if you're expecting it at the root.
+
+2. Incorrect appdir Path:
+
+Double-check the appdir argument in shinylive::export().
+
+If your app.R is in the same directory where you are running your R console, then appdir = "." is usually correct (meaning the current working directory).
+If app.R is in a subfolder named "app" relative to your current working directory, then appdir = "app" is correct.
+Example Scenario and Solution:
+
+Let's imagine your project structure is:
+
+my_project/
+├── R_scripts/
+│   └── run_shinylive_export.R  (where you run your R code)
+├── app/
+│   └── app.R                  (your Shiny app code)
+└── docs/                      (this will be created/populated)
+
+## What Worked
+
+- Export using `shinylive export app docs`
+- Pushing to GitHub repo
+- GitHub Pages rendered the app at the correct URL
+
+## What Did Not Work
+
+- Needed to use `ifelse(..., NA_real_)` to avoid divide-by-zero
+- Plot legend required `element_text()` for styling
+...

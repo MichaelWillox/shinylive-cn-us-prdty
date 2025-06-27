@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.526">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michael Willox">
+
+<title>Building the Shinylive App for Canada-U.S. Productivity</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Proceedure_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Proceedure_files/libs/quarto-html/quarto.js"></script>
+<script src="Proceedure_files/libs/quarto-html/popper.min.js"></script>
+<script src="Proceedure_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Proceedure_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Proceedure_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Proceedure_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Proceedure_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Proceedure_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Proceedure_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Building the Shinylive App for Canada-U.S. Productivity</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Michael Willox </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This document tracks the steps, successes, and failures involved in building and deploying a Shinylive app.</p>
+</section>
+<section id="folder-structure-setup-before-running-run_shinylive_app.r." class="level2">
+<h2 class="anchored" data-anchor-id="folder-structure-setup-before-running-run_shinylive_app.r.">Folder Structure Setup <strong>Before</strong> Running ‘Run_Shinylive_app.R’.</h2>
+<p>├── app<br>
+│ ├── app.R<br>
+│ └── df_clean.RDS<br>
+├── data<br>
+│ ├── cn_us_mfp.csv<br>
+│ ├── cn_us_mfp.RDS<br>
+│ ├── cn_us_mfp.xlsx<br>
+├── prep_data.R<br>
+├── Proceedure.html<br>
+├── Proceedure.qmd<br>
+├── Proceedure.rmarkdown<br>
+├── Proceedure_files<br>
+├── Run_Shinylive_app.R<br>
+└── shinylive-cn-us-prdty.Rproj</p>
+</section>
+<section id="folder-structure-setup-after-running-run_shinylive_app.r." class="level2">
+<h2 class="anchored" data-anchor-id="folder-structure-setup-after-running-run_shinylive_app.r.">Folder Structure Setup <strong>After</strong> Running ‘Run_Shinylive_app.R’.</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>📁 This is the folder structure for the Shinylive app:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+├── app
+│   ├── app.R
+│   └── df_clean.RDS
+├── data
+│   ├── cn_us_mfp.csv
+│   ├── cn_us_mfp.RDS
+│   └── cn_us_mfp.xlsx
+├── docs
+│   ├── app.json
+│   ├── edit
+│   │   └── index.html
+│   ├── index.html
+│   ├── shinylive
+│   │   ├── browser-OYYBATHK.js
+│   │   ├── browser-YJT5PK6V.js
+│   │   ├── chunk-O5P2LFOG.js
+│   │   ├── chunk-PHWSSKUM.js
+│   │   ├── Editor.css
+│   │   ├── Editor.js
+│   │   ├── load-shinylive-sw.js
+│   │   ├── lzstring-worker.js
+│   │   ├── pyodide-worker.js
+│   │   ├── run-python-blocks.js
+│   │   ├── shinylive.css
+│   │   ├── shinylive.js
+│   │   ├── SourceSansPro-Regular.otf-PVQ5ZP77.woff2
+│   │   ├── style-resets.css
+│   │   └── webr
+│   │       ├── esbuild.d.ts
+│   │       ├── library.data.gz
+│   │       ├── library.js.metadata
+│   │       ├── libRblas.so
+│   │       ├── libRlapack.so
+│   │       ├── packages
+│   │       │   ├── askpass
+│   │       │   │   └── askpass_1.2.1.tgz
+│   │       │   ├── backports
+│   │       │   │   └── backports_1.5.0.tgz
+│   │       │   ├── bit
+│   │       │   │   └── bit_4.6.0.tgz
+│   │       │   ├── bit64
+│   │       │   │   └── bit64_4.6.0-1.tgz
+│   │       │   ├── blob
+│   │       │   │   └── blob_1.2.4.tgz
+│   │       │   ├── broom
+│   │       │   │   └── broom_1.0.8.tgz
+│   │       │   ├── callr
+│   │       │   │   └── callr_3.7.6.tgz
+│   │       │   ├── cellranger
+│   │       │   │   └── cellranger_1.1.0.tgz
+│   │       │   ├── clipr
+│   │       │   │   └── clipr_0.8.0.tgz
+│   │       │   ├── conflicted
+│   │       │   │   └── conflicted_1.2.0.tgz
+│   │       │   ├── curl
+│   │       │   ├── data.table
+│   │       │   │   └── data.table_1.17.0.tgz
+│   │       │   ├── DBI
+│   │       │   │   └── DBI_1.2.3.tgz
+│   │       │   ├── dbplyr
+│   │       │   │   └── dbplyr_2.5.0.tgz
+│   │       │   ├── dplyr
+│   │       │   │   └── dplyr_1.1.4.tgz
+│   │       │   ├── dtplyr
+│   │       │   │   └── dtplyr_1.3.1.tgz
+│   │       │   ├── evaluate
+│   │       │   │   └── evaluate_1.0.3.tgz
+│   │       │   ├── farver
+│   │       │   │   └── farver_2.1.2.tgz
+│   │       │   ├── forcats
+│   │       │   │   └── forcats_1.0.0.tgz
+│   │       │   ├── gargle
+│   │       │   │   └── gargle_1.5.2.tgz
+│   │       │   ├── generics
+│   │       │   │   └── generics_0.1.3.tgz
+│   │       │   ├── ggplot2
+│   │       │   │   └── ggplot2_3.5.2.tgz
+│   │       │   ├── googledrive
+│   │       │   │   └── googledrive_2.1.1.tgz
+│   │       │   ├── googlesheets4
+│   │       │   │   └── googlesheets4_1.1.1.tgz
+│   │       │   ├── gtable
+│   │       │   │   └── gtable_0.3.6.tgz
+│   │       │   ├── haven
+│   │       │   │   └── haven_2.5.4.tgz
+│   │       │   ├── highr
+│   │       │   │   └── highr_0.11.tgz
+│   │       │   ├── hms
+│   │       │   │   └── hms_1.1.3.tgz
+│   │       │   ├── httr
+│   │       │   │   └── httr_1.4.7.tgz
+│   │       │   ├── ids
+│   │       │   │   └── ids_1.0.1.tgz
+│   │       │   ├── isoband
+│   │       │   │   └── isoband_0.2.7.tgz
+│   │       │   ├── knitr
+│   │       │   │   └── knitr_1.50.tgz
+│   │       │   ├── labeling
+│   │       │   │   └── labeling_0.4.3.tgz
+│   │       │   ├── lattice
+│   │       │   │   └── lattice_0.22-7.tgz
+│   │       │   ├── lubridate
+│   │       │   │   └── lubridate_1.9.4.tgz
+│   │       │   ├── MASS
+│   │       │   │   └── MASS_7.3-65.tgz
+│   │       │   ├── Matrix
+│   │       │   │   └── Matrix_1.7-3.tgz
+│   │       │   ├── metadata.rds
+│   │       │   ├── mgcv
+│   │       │   │   └── mgcv_1.9-3.tgz
+│   │       │   ├── modelr
+│   │       │   │   └── modelr_0.1.11.tgz
+│   │       │   ├── nlme
+│   │       │   │   └── nlme_3.1-168.tgz
+│   │       │   ├── openssl
+│   │       │   │   └── openssl_2.3.2.tgz
+│   │       │   ├── pillar
+│   │       │   │   └── pillar_1.10.2.tgz
+│   │       │   ├── pkgconfig
+│   │       │   │   └── pkgconfig_2.0.3.tgz
+│   │       │   ├── processx
+│   │       │   │   └── processx_3.8.6.tgz
+│   │       │   ├── ps
+│   │       │   │   └── ps_1.9.1.tgz
+│   │       │   ├── purrr
+│   │       │   │   └── purrr_1.0.4.tgz
+│   │       │   ├── ragg
+│   │       │   │   └── ragg_1.4.0.tgz
+│   │       │   ├── RColorBrewer
+│   │       │   │   └── RColorBrewer_1.1-3.tgz
+│   │       │   ├── readr
+│   │       │   │   └── readr_2.1.5.tgz
+│   │       │   ├── readxl
+│   │       │   │   └── readxl_1.4.5.tgz
+│   │       │   ├── rematch
+│   │       │   │   └── rematch_2.0.0.tgz
+│   │       │   ├── rematch2
+│   │       │   │   └── rematch2_2.1.2.tgz
+│   │       │   ├── reprex
+│   │       │   │   └── reprex_2.1.1.tgz
+│   │       │   ├── rmarkdown
+│   │       │   │   └── rmarkdown_2.29.tgz
+│   │       │   ├── rstudioapi
+│   │       │   │   └── rstudioapi_0.17.1.tgz
+│   │       │   ├── rvest
+│   │       │   │   └── rvest_1.0.4.tgz
+│   │       │   ├── scales
+│   │       │   │   └── scales_1.3.0.tgz
+│   │       │   ├── selectr
+│   │       │   │   └── selectr_0.4-2.tgz
+│   │       │   ├── stringi
+│   │       │   │   └── stringi_1.8.7.tgz
+│   │       │   ├── stringr
+│   │       │   │   └── stringr_1.5.1.tgz
+│   │       │   ├── sys
+│   │       │   │   └── sys_3.4.3.tgz
+│   │       │   ├── systemfonts
+│   │       │   │   └── systemfonts_1.2.2.tgz
+│   │       │   ├── textshaping
+│   │       │   │   └── textshaping_0.4.0.tgz
+│   │       │   ├── tibble
+│   │       │   │   └── tibble_3.2.1.tgz
+│   │       │   ├── tidyr
+│   │       │   │   └── tidyr_1.3.1.tgz
+│   │       │   ├── tidyselect
+│   │       │   │   └── tidyselect_1.2.1.tgz
+│   │       │   ├── tidyverse
+│   │       │   │   └── tidyverse_2.0.0.tgz
+│   │       │   ├── timechange
+│   │       │   │   └── timechange_0.3.0.tgz
+│   │       │   ├── tinytex
+│   │       │   │   └── tinytex_0.57.tgz
+│   │       │   ├── tzdb
+│   │       │   │   └── tzdb_0.5.0.tgz
+│   │       │   ├── utf8
+│   │       │   │   └── utf8_1.2.4.tgz
+│   │       │   ├── uuid
+│   │       │   │   └── uuid_1.2-1.tgz
+│   │       │   ├── vctrs
+│   │       │   │   └── vctrs_0.6.5.tgz
+│   │       │   ├── viridisLite
+│   │       │   │   └── viridisLite_0.4.2.tgz
+│   │       │   ├── vroom
+│   │       │   │   └── vroom_1.6.5.9000.tgz
+│   │       │   ├── xfun
+│   │       │   │   └── xfun_0.52.tgz
+│   │       │   ├── xml2
+│   │       │   │   └── xml2_1.3.6.tgz
+│   │       │   └── yaml
+│   │       │       └── yaml_2.3.10.tgz
+│   │       ├── R.bin.js
+│   │       ├── R.bin.js.bak
+│   │       ├── R.bin.wasm
+│   │       ├── repl
+│   │       │   ├── App.d.ts
+│   │       │   └── components
+│   │       │       ├── Editor.d.ts
+│   │       │       ├── Files.d.ts
+│   │       │       ├── Plot.d.ts
+│   │       │       ├── Terminal.d.ts
+│   │       │       └── utils.d.ts
+│   │       ├── tests
+│   │       │   ├── packages
+│   │       │   │   └── webr.test.d.ts
+│   │       │   └── webR
+│   │       │       ├── chan
+│   │       │       │   └── channel-postmessage.test.d.ts
+│   │       │       ├── console.test.d.ts
+│   │       │       ├── error.test.d.ts
+│   │       │       ├── mount.test.d.ts
+│   │       │       ├── proxy.test.d.ts
+│   │       │       ├── robj.test.d.ts
+│   │       │       ├── utils.test.d.ts
+│   │       │       ├── webr-main.test.d.ts
+│   │       │       ├── webr-r.test.d.ts
+│   │       │       └── webr-worker.test.d.ts
+│   │       ├── vfs
+│   │       │   ├── etc
+│   │       │   │   └── fonts
+│   │       │   │       └── fonts.conf
+│   │       │   ├── usr
+│   │       │   │   ├── lib
+│   │       │   │   │   └── R
+│   │       │   │   │       ├── doc.data.gz
+│   │       │   │   │       ├── doc.js.metadata
+│   │       │   │   │       ├── library
+│   │       │   │   │       │   ├── base
+│   │       │   │   │       │   │   ├── demo.data.gz
+│   │       │   │   │       │   │   ├── demo.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   └── html.js.metadata
+│   │       │   │   │       │   ├── compiler
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── datasets
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   └── html.js.metadata
+│   │       │   │   │       │   ├── graphics
+│   │       │   │   │       │   │   ├── demo.data.gz
+│   │       │   │   │       │   │   ├── demo.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   └── html.js.metadata
+│   │       │   │   │       │   ├── grDevices
+│   │       │   │   │       │   │   ├── afm.data.gz
+│   │       │   │   │       │   │   ├── afm.js.metadata
+│   │       │   │   │       │   │   ├── demo.data.gz
+│   │       │   │   │       │   │   ├── demo.js.metadata
+│   │       │   │   │       │   │   ├── enc.data.gz
+│   │       │   │   │       │   │   ├── enc.js.metadata
+│   │       │   │   │       │   │   ├── fonts.data.gz
+│   │       │   │   │       │   │   ├── fonts.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── libs.data.gz
+│   │       │   │   │       │   │   ├── libs.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── grid
+│   │       │   │   │       │   │   ├── doc.data.gz
+│   │       │   │   │       │   │   ├── doc.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── methods
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── parallel.data.gz
+│   │       │   │   │       │   ├── parallel.js.metadata
+│   │       │   │   │       │   ├── splines
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── stats
+│   │       │   │   │       │   │   ├── demo.data.gz
+│   │       │   │   │       │   │   ├── demo.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── stats4
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── tcltk.data.gz
+│   │       │   │   │       │   ├── tcltk.js.metadata
+│   │       │   │   │       │   ├── tools
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   ├── translations
+│   │       │   │   │       │   │   └── DESCRIPTION
+│   │       │   │   │       │   ├── translations.data.gz
+│   │       │   │   │       │   ├── translations.js.metadata
+│   │       │   │   │       │   ├── utils
+│   │       │   │   │       │   │   ├── doc.data.gz
+│   │       │   │   │       │   │   ├── doc.js.metadata
+│   │       │   │   │       │   │   ├── help.data.gz
+│   │       │   │   │       │   │   ├── help.js.metadata
+│   │       │   │   │       │   │   ├── html.data.gz
+│   │       │   │   │       │   │   ├── html.js.metadata
+│   │       │   │   │       │   │   ├── misc.data.gz
+│   │       │   │   │       │   │   ├── misc.js.metadata
+│   │       │   │   │       │   │   ├── tests.data.gz
+│   │       │   │   │       │   │   └── tests.js.metadata
+│   │       │   │   │       │   └── webr
+│   │       │   │   │       │       ├── help.data.gz
+│   │       │   │   │       │       ├── help.js.metadata
+│   │       │   │   │       │       ├── html.data.gz
+│   │       │   │   │       │       └── html.js.metadata
+│   │       │   │   │       ├── share.data.gz
+│   │       │   │   │       ├── share.js.metadata
+│   │       │   │   │       ├── tests.data.gz
+│   │       │   │   │       └── tests.js.metadata
+│   │       │   │   └── share
+│   │       │   │       ├── fonts
+│   │       │   │       │   ├── NotoSans-Bold.ttf
+│   │       │   │       │   ├── NotoSans-BoldItalic.ttf
+│   │       │   │       │   ├── NotoSans-Italic.ttf
+│   │       │   │       │   ├── NotoSans-Regular.ttf
+│   │       │   │       │   ├── NotoSansMono-Bold.ttf
+│   │       │   │       │   ├── NotoSansMono-Regular.ttf
+│   │       │   │       │   ├── NotoSerif-Bold.ttf
+│   │       │   │       │   ├── NotoSerif-BoldItalic.ttf
+│   │       │   │       │   ├── NotoSerif-Italic.ttf
+│   │       │   │       │   └── NotoSerif-Regular.ttf
+│   │       │   │       ├── gdal.data.gz
+│   │       │   │       ├── gdal.js.metadata
+│   │       │   │       ├── proj.data.gz
+│   │       │   │       ├── proj.js.metadata
+│   │       │   │       ├── udunits.data.gz
+│   │       │   │       └── udunits.js.metadata
+│   │       │   └── var
+│   │       │       └── cache
+│   │       │           └── fontconfig
+│   │       │               ├── 3830d5c3ddfd5cd38a049b759396e72e-le32d8.cache-7
+│   │       │               └── CACHEDIR.TAG
+│   │       ├── webR
+│   │       │   ├── chan
+│   │       │   │   ├── channel-common.d.ts
+│   │       │   │   ├── channel-postmessage.d.ts
+│   │       │   │   ├── channel-service.d.ts
+│   │       │   │   ├── channel-shared.d.ts
+│   │       │   │   ├── channel.d.ts
+│   │       │   │   ├── message.d.ts
+│   │       │   │   ├── queue.d.ts
+│   │       │   │   ├── serviceworker.d.ts
+│   │       │   │   ├── task-common.d.ts
+│   │       │   │   ├── task-main.d.ts
+│   │       │   │   └── task-worker.d.ts
+│   │       │   ├── compat.d.ts
+│   │       │   ├── config.d.ts
+│   │       │   ├── console.d.ts
+│   │       │   ├── emscripten.d.ts
+│   │       │   ├── error.d.ts
+│   │       │   ├── mount.d.ts
+│   │       │   ├── payload.d.ts
+│   │       │   ├── proxy.d.ts
+│   │       │   ├── robj-main.d.ts
+│   │       │   ├── robj-worker.d.ts
+│   │       │   ├── robj.d.ts
+│   │       │   ├── utils-r.d.ts
+│   │       │   ├── utils.d.ts
+│   │       │   ├── webr-chan.d.ts
+│   │       │   ├── webr-main.d.ts
+│   │       │   └── webr-worker.d.ts
+│   │       ├── webr-serviceworker.js
+│   │       ├── webr-serviceworker.js.map
+│   │       ├── webr-serviceworker.mjs
+│   │       ├── webr-serviceworker.mjs.map
+│   │       ├── webr-worker.js
+│   │       ├── webr-worker.js.map
+│   │       ├── webr.cjs
+│   │       ├── webr.cjs.map
+│   │       ├── webr.mjs
+│   │       └── webr.mjs.map
+│   └── shinylive-sw.js
+├── prep_data.R
+├── Proceedure.html
+├── Proceedure.qmd
+├── Proceedure.rmarkdown
+├── Proceedure_files
+│   └── libs
+│       ├── bootstrap
+│       │   ├── bootstrap-icons.css
+│       │   ├── bootstrap-icons.woff
+│       │   ├── bootstrap.min.css
+│       │   └── bootstrap.min.js
+│       ├── clipboard
+│       │   └── clipboard.min.js
+│       └── quarto-html
+│           ├── anchor.min.js
+│           ├── popper.min.js
+│           ├── quarto-syntax-highlighting.css
+│           ├── quarto.js
+│           ├── tippy.css
+│           └── tippy.umd.min.js
+├── Run_Shinylive_app.R
+└── shinylive-cn-us-prdty.Rproj</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>📁 These are the individual files:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>app
+app/app.R
+app/df_clean.RDS
+data
+data/cn_us_mfp.csv
+data/cn_us_mfp.RDS
+data/cn_us_mfp.xlsx
+docs
+docs/app.json
+docs/edit
+docs/edit/index.html
+docs/index.html
+docs/shinylive
+docs/shinylive/browser-OYYBATHK.js
+docs/shinylive/browser-YJT5PK6V.js
+docs/shinylive/chunk-O5P2LFOG.js
+docs/shinylive/chunk-PHWSSKUM.js
+docs/shinylive/Editor.css
+docs/shinylive/Editor.js
+docs/shinylive/load-shinylive-sw.js
+docs/shinylive/lzstring-worker.js
+docs/shinylive/pyodide-worker.js
+docs/shinylive/run-python-blocks.js
+docs/shinylive/shinylive.css
+docs/shinylive/shinylive.js
+docs/shinylive/SourceSansPro-Regular.otf-PVQ5ZP77.woff2
+docs/shinylive/style-resets.css
+docs/shinylive/webr
+docs/shinylive/webr/esbuild.d.ts
+docs/shinylive/webr/library.data.gz
+docs/shinylive/webr/library.js.metadata
+docs/shinylive/webr/libRblas.so
+docs/shinylive/webr/libRlapack.so
+docs/shinylive/webr/packages
+docs/shinylive/webr/packages/askpass
+docs/shinylive/webr/packages/askpass/askpass_1.2.1.tgz
+docs/shinylive/webr/packages/backports
+docs/shinylive/webr/packages/backports/backports_1.5.0.tgz
+docs/shinylive/webr/packages/bit
+docs/shinylive/webr/packages/bit/bit_4.6.0.tgz
+docs/shinylive/webr/packages/bit64
+docs/shinylive/webr/packages/bit64/bit64_4.6.0-1.tgz
+docs/shinylive/webr/packages/blob
+docs/shinylive/webr/packages/blob/blob_1.2.4.tgz
+docs/shinylive/webr/packages/broom
+docs/shinylive/webr/packages/broom/broom_1.0.8.tgz
+docs/shinylive/webr/packages/callr
+docs/shinylive/webr/packages/callr/callr_3.7.6.tgz
+docs/shinylive/webr/packages/cellranger
+docs/shinylive/webr/packages/cellranger/cellranger_1.1.0.tgz
+docs/shinylive/webr/packages/clipr
+docs/shinylive/webr/packages/clipr/clipr_0.8.0.tgz
+docs/shinylive/webr/packages/conflicted
+docs/shinylive/webr/packages/conflicted/conflicted_1.2.0.tgz
+docs/shinylive/webr/packages/curl
+docs/shinylive/webr/packages/data.table
+docs/shinylive/webr/packages/data.table/data.table_1.17.0.tgz
+docs/shinylive/webr/packages/DBI
+docs/shinylive/webr/packages/DBI/DBI_1.2.3.tgz
+docs/shinylive/webr/packages/dbplyr
+docs/shinylive/webr/packages/dbplyr/dbplyr_2.5.0.tgz
+docs/shinylive/webr/packages/dplyr
+docs/shinylive/webr/packages/dplyr/dplyr_1.1.4.tgz
+docs/shinylive/webr/packages/dtplyr
+docs/shinylive/webr/packages/dtplyr/dtplyr_1.3.1.tgz
+docs/shinylive/webr/packages/evaluate
+docs/shinylive/webr/packages/evaluate/evaluate_1.0.3.tgz
+docs/shinylive/webr/packages/farver
+docs/shinylive/webr/packages/farver/farver_2.1.2.tgz
+docs/shinylive/webr/packages/forcats
+docs/shinylive/webr/packages/forcats/forcats_1.0.0.tgz
+docs/shinylive/webr/packages/gargle
+docs/shinylive/webr/packages/gargle/gargle_1.5.2.tgz
+docs/shinylive/webr/packages/generics
+docs/shinylive/webr/packages/generics/generics_0.1.3.tgz
+docs/shinylive/webr/packages/ggplot2
+docs/shinylive/webr/packages/ggplot2/ggplot2_3.5.2.tgz
+docs/shinylive/webr/packages/googledrive
+docs/shinylive/webr/packages/googledrive/googledrive_2.1.1.tgz
+docs/shinylive/webr/packages/googlesheets4
+docs/shinylive/webr/packages/googlesheets4/googlesheets4_1.1.1.tgz
+docs/shinylive/webr/packages/gtable
+docs/shinylive/webr/packages/gtable/gtable_0.3.6.tgz
+docs/shinylive/webr/packages/haven
+docs/shinylive/webr/packages/haven/haven_2.5.4.tgz
+docs/shinylive/webr/packages/highr
+docs/shinylive/webr/packages/highr/highr_0.11.tgz
+docs/shinylive/webr/packages/hms
+docs/shinylive/webr/packages/hms/hms_1.1.3.tgz
+docs/shinylive/webr/packages/httr
+docs/shinylive/webr/packages/httr/httr_1.4.7.tgz
+docs/shinylive/webr/packages/ids
+docs/shinylive/webr/packages/ids/ids_1.0.1.tgz
+docs/shinylive/webr/packages/isoband
+docs/shinylive/webr/packages/isoband/isoband_0.2.7.tgz
+docs/shinylive/webr/packages/knitr
+docs/shinylive/webr/packages/knitr/knitr_1.50.tgz
+docs/shinylive/webr/packages/labeling
+docs/shinylive/webr/packages/labeling/labeling_0.4.3.tgz
+docs/shinylive/webr/packages/lattice
+docs/shinylive/webr/packages/lattice/lattice_0.22-7.tgz
+docs/shinylive/webr/packages/lubridate
+docs/shinylive/webr/packages/lubridate/lubridate_1.9.4.tgz
+docs/shinylive/webr/packages/MASS
+docs/shinylive/webr/packages/MASS/MASS_7.3-65.tgz
+docs/shinylive/webr/packages/Matrix
+docs/shinylive/webr/packages/Matrix/Matrix_1.7-3.tgz
+docs/shinylive/webr/packages/metadata.rds
+docs/shinylive/webr/packages/mgcv
+docs/shinylive/webr/packages/mgcv/mgcv_1.9-3.tgz
+docs/shinylive/webr/packages/modelr
+docs/shinylive/webr/packages/modelr/modelr_0.1.11.tgz
+docs/shinylive/webr/packages/nlme
+docs/shinylive/webr/packages/nlme/nlme_3.1-168.tgz
+docs/shinylive/webr/packages/openssl
+docs/shinylive/webr/packages/openssl/openssl_2.3.2.tgz
+docs/shinylive/webr/packages/pillar
+docs/shinylive/webr/packages/pillar/pillar_1.10.2.tgz
+docs/shinylive/webr/packages/pkgconfig
+docs/shinylive/webr/packages/pkgconfig/pkgconfig_2.0.3.tgz
+docs/shinylive/webr/packages/processx
+docs/shinylive/webr/packages/processx/processx_3.8.6.tgz
+docs/shinylive/webr/packages/ps
+docs/shinylive/webr/packages/ps/ps_1.9.1.tgz
+docs/shinylive/webr/packages/purrr
+docs/shinylive/webr/packages/purrr/purrr_1.0.4.tgz
+docs/shinylive/webr/packages/ragg
+docs/shinylive/webr/packages/ragg/ragg_1.4.0.tgz
+docs/shinylive/webr/packages/RColorBrewer
+docs/shinylive/webr/packages/RColorBrewer/RColorBrewer_1.1-3.tgz
+docs/shinylive/webr/packages/readr
+docs/shinylive/webr/packages/readr/readr_2.1.5.tgz
+docs/shinylive/webr/packages/readxl
+docs/shinylive/webr/packages/readxl/readxl_1.4.5.tgz
+docs/shinylive/webr/packages/rematch
+docs/shinylive/webr/packages/rematch/rematch_2.0.0.tgz
+docs/shinylive/webr/packages/rematch2
+docs/shinylive/webr/packages/rematch2/rematch2_2.1.2.tgz
+docs/shinylive/webr/packages/reprex
+docs/shinylive/webr/packages/reprex/reprex_2.1.1.tgz
+docs/shinylive/webr/packages/rmarkdown
+docs/shinylive/webr/packages/rmarkdown/rmarkdown_2.29.tgz
+docs/shinylive/webr/packages/rstudioapi
+docs/shinylive/webr/packages/rstudioapi/rstudioapi_0.17.1.tgz
+docs/shinylive/webr/packages/rvest
+docs/shinylive/webr/packages/rvest/rvest_1.0.4.tgz
+docs/shinylive/webr/packages/scales
+docs/shinylive/webr/packages/scales/scales_1.3.0.tgz
+docs/shinylive/webr/packages/selectr
+docs/shinylive/webr/packages/selectr/selectr_0.4-2.tgz
+docs/shinylive/webr/packages/stringi
+docs/shinylive/webr/packages/stringi/stringi_1.8.7.tgz
+docs/shinylive/webr/packages/stringr
+docs/shinylive/webr/packages/stringr/stringr_1.5.1.tgz
+docs/shinylive/webr/packages/sys
+docs/shinylive/webr/packages/sys/sys_3.4.3.tgz
+docs/shinylive/webr/packages/systemfonts
+docs/shinylive/webr/packages/systemfonts/systemfonts_1.2.2.tgz
+docs/shinylive/webr/packages/textshaping
+docs/shinylive/webr/packages/textshaping/textshaping_0.4.0.tgz
+docs/shinylive/webr/packages/tibble
+docs/shinylive/webr/packages/tibble/tibble_3.2.1.tgz
+docs/shinylive/webr/packages/tidyr
+docs/shinylive/webr/packages/tidyr/tidyr_1.3.1.tgz
+docs/shinylive/webr/packages/tidyselect
+docs/shinylive/webr/packages/tidyselect/tidyselect_1.2.1.tgz
+docs/shinylive/webr/packages/tidyverse
+docs/shinylive/webr/packages/tidyverse/tidyverse_2.0.0.tgz
+docs/shinylive/webr/packages/timechange
+docs/shinylive/webr/packages/timechange/timechange_0.3.0.tgz
+docs/shinylive/webr/packages/tinytex
+docs/shinylive/webr/packages/tinytex/tinytex_0.57.tgz
+docs/shinylive/webr/packages/tzdb
+docs/shinylive/webr/packages/tzdb/tzdb_0.5.0.tgz
+docs/shinylive/webr/packages/utf8
+docs/shinylive/webr/packages/utf8/utf8_1.2.4.tgz
+docs/shinylive/webr/packages/uuid
+docs/shinylive/webr/packages/uuid/uuid_1.2-1.tgz
+docs/shinylive/webr/packages/vctrs
+docs/shinylive/webr/packages/vctrs/vctrs_0.6.5.tgz
+docs/shinylive/webr/packages/viridisLite
+docs/shinylive/webr/packages/viridisLite/viridisLite_0.4.2.tgz
+docs/shinylive/webr/packages/vroom
+docs/shinylive/webr/packages/vroom/vroom_1.6.5.9000.tgz
+docs/shinylive/webr/packages/xfun
+docs/shinylive/webr/packages/xfun/xfun_0.52.tgz
+docs/shinylive/webr/packages/xml2
+docs/shinylive/webr/packages/xml2/xml2_1.3.6.tgz
+docs/shinylive/webr/packages/yaml
+docs/shinylive/webr/packages/yaml/yaml_2.3.10.tgz
+docs/shinylive/webr/R.bin.js
+docs/shinylive/webr/R.bin.js.bak
+docs/shinylive/webr/R.bin.wasm
+docs/shinylive/webr/repl
+docs/shinylive/webr/repl/App.d.ts
+docs/shinylive/webr/repl/components
+docs/shinylive/webr/repl/components/Editor.d.ts
+docs/shinylive/webr/repl/components/Files.d.ts
+docs/shinylive/webr/repl/components/Plot.d.ts
+docs/shinylive/webr/repl/components/Terminal.d.ts
+docs/shinylive/webr/repl/components/utils.d.ts
+docs/shinylive/webr/tests
+docs/shinylive/webr/tests/packages
+docs/shinylive/webr/tests/packages/webr.test.d.ts
+docs/shinylive/webr/tests/webR
+docs/shinylive/webr/tests/webR/chan
+docs/shinylive/webr/tests/webR/chan/channel-postmessage.test.d.ts
+docs/shinylive/webr/tests/webR/console.test.d.ts
+docs/shinylive/webr/tests/webR/error.test.d.ts
+docs/shinylive/webr/tests/webR/mount.test.d.ts
+docs/shinylive/webr/tests/webR/proxy.test.d.ts
+docs/shinylive/webr/tests/webR/robj.test.d.ts
+docs/shinylive/webr/tests/webR/utils.test.d.ts
+docs/shinylive/webr/tests/webR/webr-main.test.d.ts
+docs/shinylive/webr/tests/webR/webr-r.test.d.ts
+docs/shinylive/webr/tests/webR/webr-worker.test.d.ts
+docs/shinylive/webr/vfs
+docs/shinylive/webr/vfs/etc
+docs/shinylive/webr/vfs/etc/fonts
+docs/shinylive/webr/vfs/etc/fonts/fonts.conf
+docs/shinylive/webr/vfs/usr
+docs/shinylive/webr/vfs/usr/lib
+docs/shinylive/webr/vfs/usr/lib/R
+docs/shinylive/webr/vfs/usr/lib/R/doc.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/doc.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library
+docs/shinylive/webr/vfs/usr/lib/R/library/base
+docs/shinylive/webr/vfs/usr/lib/R/library/base/demo.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/base/demo.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/base/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/base/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/base/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/base/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/compiler/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/datasets
+docs/shinylive/webr/vfs/usr/lib/R/library/datasets/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/datasets/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/datasets/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/datasets/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/demo.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/demo.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/graphics/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/afm.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/afm.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/demo.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/demo.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/enc.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/enc.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/fonts.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/fonts.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/libs.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/libs.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grDevices/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grid
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/doc.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/doc.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/grid/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/methods
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/methods/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/parallel.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/parallel.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/splines
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/splines/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/demo.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/demo.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/stats4/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/tcltk.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/tcltk.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/tools
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/tools/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/translations
+docs/shinylive/webr/vfs/usr/lib/R/library/translations/DESCRIPTION
+docs/shinylive/webr/vfs/usr/lib/R/library/translations.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/translations.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/utils
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/doc.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/doc.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/misc.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/misc.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/utils/tests.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/webr
+docs/shinylive/webr/vfs/usr/lib/R/library/webr/help.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/webr/help.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/library/webr/html.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/library/webr/html.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/share.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/share.js.metadata
+docs/shinylive/webr/vfs/usr/lib/R/tests.data.gz
+docs/shinylive/webr/vfs/usr/lib/R/tests.js.metadata
+docs/shinylive/webr/vfs/usr/share
+docs/shinylive/webr/vfs/usr/share/fonts
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSans-Bold.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSans-BoldItalic.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSans-Italic.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSans-Regular.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSansMono-Bold.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSansMono-Regular.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSerif-Bold.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSerif-BoldItalic.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSerif-Italic.ttf
+docs/shinylive/webr/vfs/usr/share/fonts/NotoSerif-Regular.ttf
+docs/shinylive/webr/vfs/usr/share/gdal.data.gz
+docs/shinylive/webr/vfs/usr/share/gdal.js.metadata
+docs/shinylive/webr/vfs/usr/share/proj.data.gz
+docs/shinylive/webr/vfs/usr/share/proj.js.metadata
+docs/shinylive/webr/vfs/usr/share/udunits.data.gz
+docs/shinylive/webr/vfs/usr/share/udunits.js.metadata
+docs/shinylive/webr/vfs/var
+docs/shinylive/webr/vfs/var/cache
+docs/shinylive/webr/vfs/var/cache/fontconfig
+docs/shinylive/webr/vfs/var/cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le32d8.cache-7
+docs/shinylive/webr/vfs/var/cache/fontconfig/CACHEDIR.TAG
+docs/shinylive/webr/webR
+docs/shinylive/webr/webR/chan
+docs/shinylive/webr/webR/chan/channel-common.d.ts
+docs/shinylive/webr/webR/chan/channel-postmessage.d.ts
+docs/shinylive/webr/webR/chan/channel-service.d.ts
+docs/shinylive/webr/webR/chan/channel-shared.d.ts
+docs/shinylive/webr/webR/chan/channel.d.ts
+docs/shinylive/webr/webR/chan/message.d.ts
+docs/shinylive/webr/webR/chan/queue.d.ts
+docs/shinylive/webr/webR/chan/serviceworker.d.ts
+docs/shinylive/webr/webR/chan/task-common.d.ts
+docs/shinylive/webr/webR/chan/task-main.d.ts
+docs/shinylive/webr/webR/chan/task-worker.d.ts
+docs/shinylive/webr/webR/compat.d.ts
+docs/shinylive/webr/webR/config.d.ts
+docs/shinylive/webr/webR/console.d.ts
+docs/shinylive/webr/webR/emscripten.d.ts
+docs/shinylive/webr/webR/error.d.ts
+docs/shinylive/webr/webR/mount.d.ts
+docs/shinylive/webr/webR/payload.d.ts
+docs/shinylive/webr/webR/proxy.d.ts
+docs/shinylive/webr/webR/robj-main.d.ts
+docs/shinylive/webr/webR/robj-worker.d.ts
+docs/shinylive/webr/webR/robj.d.ts
+docs/shinylive/webr/webR/utils-r.d.ts
+docs/shinylive/webr/webR/utils.d.ts
+docs/shinylive/webr/webR/webr-chan.d.ts
+docs/shinylive/webr/webR/webr-main.d.ts
+docs/shinylive/webr/webR/webr-worker.d.ts
+docs/shinylive/webr/webr-serviceworker.js
+docs/shinylive/webr/webr-serviceworker.js.map
+docs/shinylive/webr/webr-serviceworker.mjs
+docs/shinylive/webr/webr-serviceworker.mjs.map
+docs/shinylive/webr/webr-worker.js
+docs/shinylive/webr/webr-worker.js.map
+docs/shinylive/webr/webr.cjs
+docs/shinylive/webr/webr.cjs.map
+docs/shinylive/webr/webr.mjs
+docs/shinylive/webr/webr.mjs.map
+docs/shinylive-sw.js
+prep_data.R
+Proceedure.html
+Proceedure.qmd
+Proceedure.rmarkdown
+Proceedure_files
+Proceedure_files/libs
+Proceedure_files/libs/bootstrap
+Proceedure_files/libs/bootstrap/bootstrap-icons.css
+Proceedure_files/libs/bootstrap/bootstrap-icons.woff
+Proceedure_files/libs/bootstrap/bootstrap.min.css
+Proceedure_files/libs/bootstrap/bootstrap.min.js
+Proceedure_files/libs/clipboard
+Proceedure_files/libs/clipboard/clipboard.min.js
+Proceedure_files/libs/quarto-html
+Proceedure_files/libs/quarto-html/anchor.min.js
+Proceedure_files/libs/quarto-html/popper.min.js
+Proceedure_files/libs/quarto-html/quarto-syntax-highlighting.css
+Proceedure_files/libs/quarto-html/quarto.js
+Proceedure_files/libs/quarto-html/tippy.css
+Proceedure_files/libs/quarto-html/tippy.umd.min.js
+Run_Shinylive_app.R
+shinylive-cn-us-prdty.Rproj</code></pre>
+</div>
+</div>
+</section>
+<section id="run-run_shinylive_app.r" class="level2">
+<h2 class="anchored" data-anchor-id="run-run_shinylive_app.r">Run <code>Run_Shinylive_app.R</code></h2>
+</section>
+<section id="tips-for-a-successful-export" class="level2">
+<h2 class="anchored" data-anchor-id="tips-for-a-successful-export">Tips for a Successful Export</h2>
+<section id="check-asset-versions" class="level3">
+<h3 class="anchored" data-anchor-id="check-asset-versions">Check Asset Versions:</h3>
+<p>Use <code>shinylive::assets_info()</code> to verify that the correct web assets are installed and cached.</p>
+</section>
+<section id="update-packages-if-needed" class="level3">
+<h3 class="anchored" data-anchor-id="update-packages-if-needed">Update Packages if Needed:</h3>
+<p>If you encounter issues with asset versions, try running <code>shinylive::assets_download()</code> to update your assets.</p>
+</section>
+<section id="clean-up-old-assets" class="level3">
+<h3 class="anchored" data-anchor-id="clean-up-old-assets">Clean Up Old Assets:</h3>
+<p>Periodically, run <code>shinylive::assets_cleanup()</code> to remove outdated asset versions from your cache.</p>
+</section>
+</section>
+<section id="what-worked" class="level2">
+<h2 class="anchored" data-anchor-id="what-worked">What Worked</h2>
+<ul>
+<li>Export using <code>shinylive export app docs</code></li>
+<li>Pushing to GitHub repo</li>
+<li>GitHub Pages rendered the app at the correct URL</li>
+</ul>
+</section>
+<section id="what-did-not-work" class="level2">
+<h2 class="anchored" data-anchor-id="what-did-not-work">What Did Not Work</h2>
+<ul>
+<li>Needed to use <code>ifelse(..., NA_real_)</code> to avoid divide-by-zero</li>
+<li>Plot legend required <code>element_text()</code> for styling …</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
