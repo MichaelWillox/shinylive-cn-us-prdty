@@ -16,8 +16,8 @@ This repository hosts a lightweight, browser-based Shinylive app for visualizing
 - Define custom start and end years for the time series.
 - Set a base year to index values to 100 for clear comparison over time.
 - Visualize the data with a colour-coded line plot:
-  - Canada → <span style="color:red;">red</span>.
-  - United States → <span style="color:blue;">blue</span>.
+  - Canada → red.
+  - United States → blue.
 - Preview and download the underlying filtered data as a CSV file with both raw values and indexed values.
 
 ---

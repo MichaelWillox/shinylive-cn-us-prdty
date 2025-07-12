@@ -190,9 +190,8 @@ server <- function(input, output, session) {
   
   # Message to include the full text 
   message <- paste0("The cumulative annual growth rate (CAGR) for Canada is ",
-                    canada_cagr_formatted, " and the CAGR for the United States is ",
-                    us_cagr_formatted, ". ",
-                    "Note that the CAGR function is nonlinear, and therefore, non-additive. Adding or subtracting CAGRs can be misleading, particularly when growth rates are large.")
+                    canada_cagr_formatted, " compared to ", us_cagr_formatted, " for the United States. ",
+                    "Note that the formula for CAGR is nonlinear, and therefore, non-additive. Adding or subtracting CAGRs can be misleading, particularly when growth rates are large.")
 
   list(canada_growth = canada_cagr, us_growth = us_cagr, message = message)
  })
