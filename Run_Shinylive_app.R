@@ -1,10 +1,7 @@
 # Run_Shinylive_app
-
 library(shinylive)
 
 # Create 'docs' and 'app' folders. The app folder contains app.R and df_clean.RDS
-
-
 ## Run the following in an R session to serve the app:
 
 shinylive::export(appdir = ".", destdir = "docs")
@@ -29,22 +26,25 @@ shinylive::assets_cleanup() # to remove outdated asset versions from your cache.
 
 
 
-Tidyverse is up to date for my machine.
-Here are the errors: 
-shinylive.js:35463 
-preload error:Error: package or namespace load failed for ‘tidyverse’:
- shinylive.js:35463 
-preload error: .onAttach failed in attachNamespace() for 'tidyverse', details:
- shinylive.js:35463 
-preload error:  call: NULL
-shinylive.js:35463 
-preload error:  error: package or namespace load failed for ‘ggplot2’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
- shinylive.js:35463 
-preload error: there is no package called ‘munsell’
-shinylive.js:35463 
-preload error:Error: object 'app_blphko0cb4vtyx7uix87' not found
-shinylive.js:32284 
-Uncaught (in promise) Error: Unexpected response type: "null", expected "list".
-at handleHttpuvRequests (shinylive.js:32284:17)
-at async makeHttpuvRequest (shinylive.js:32240:3)
-at async WebRWorkerProxy.makeRequest (shinylive.js:33939:5)
+# Tidyverse is up to date for my machine.
+# Here are the errors: 
+# shinylive.js:35463 
+# preload error:Error: package or namespace load failed for ‘tidyverse’:
+#  shinylive.js:35463 
+# preload error: .onAttach failed in attachNamespace() for 'tidyverse', details:
+#  shinylive.js:35463 
+# preload error:  call: NULL
+# shinylive.js:35463 
+# preload error:  error: package or namespace load failed for ‘ggplot2’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+#  shinylive.js:35463 
+# preload error: there is no package called ‘munsell’
+# shinylive.js:35463 
+# preload error:Error: object 'app_blphko0cb4vtyx7uix87' not found
+# shinylive.js:32284 
+# Uncaught (in promise) Error: Unexpected response type: "null", expected "list".
+# at handleHttpuvRequests (shinylive.js:32284:17)
+# at async makeHttpuvRequest (shinylive.js:32240:3)
+# at async WebRWorkerProxy.makeRequest (shinylive.js:33939:5)
+
+
+# What to do if you see this error
