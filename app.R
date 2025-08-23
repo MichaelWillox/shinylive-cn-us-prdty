@@ -10,23 +10,23 @@ downloadButton <- function(...) {
  tag
 }
 
-# Load pre-cleaned data
-# Assuming 'df_clean.RDS' is in the same directory as the app.R file
-# For demonstration purposes, creating a dummy df_clean if the file is not found
-if (!file.exists("df_clean.RDS")) {
- df_clean <- tibble(
-  year = rep(1980:2020, each = 2, times = 3),
-  country = rep(c("Canada", "United States"), times = length(1980:2020) * 3),
-  industry_name = rep(c("Business sector", "Manufacturing", "Retail Trade"), each = length(1980:2020) * 2),
-  `Real GDP per Hour Worked` = runif(length(year), 50, 150),
-  `Labor Productivity` = runif(length(year), 60, 160)
- )
- # Save a dummy RDS for local testing if needed
- # saveRDS(df_clean, "df_clean.RDS")
-} else {
- df_clean <- readRDS("df_clean.RDS")
-}
-
+# # Load pre-cleaned data
+# # Assuming 'df_clean.RDS' is in the same directory as the app.R file
+# # For demonstration purposes, creating a dummy df_clean if the file is not found
+# if (!file.exists("df_clean.RDS")) {
+#  df_clean <- tibble(
+#   year = rep(1980:2020, each = 2, times = 3),
+#   country = rep(c("Canada", "United States"), times = length(1980:2020) * 3),
+#   industry_name = rep(c("Business sector", "Manufacturing", "Retail Trade"), each = length(1980:2020) * 2),
+#   `Index of Labour Productivity` = runif(length(year), 50, 150),
+#   `Labor Productivity` = runif(length(year), 60, 160)
+#  )
+#  # Save a dummy RDS for local testing if needed
+#  # saveRDS(df_clean, "df_clean.RDS")
+# } else {
+#  df_clean <- readRDS("df_clean.RDS")
+# }
+# 
 
 # Variable choices for dropdown
 variable_choices <- setdiff(names(df_clean), c("year", "country", "industry_name", "naics"))
