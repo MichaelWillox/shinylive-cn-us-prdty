@@ -3,16 +3,9 @@
 .RData
 .Ruserdata
 data/
-prep_data.R
-.html
-.qmd
+*.R
+*.html
+*.qmd
 Proceedure_files/
-app - Copy (2).R
-app - Copy (3).R
-app - Copy.R
 CN_US_Metadata/
-Run_Shinylive_app.R
-docs/app.json
-Procedure.html
-Procedure.qmd
-shinylive-cn-us-prdty.Rproj
+*.Rproj
