@@ -5,7 +5,9 @@ library(shinylive)
 ## Run the following in an R session to serve the app:
 
 # wipe and rebuild the deploy folder
-unlink("docs", recursive = TRUE, force = TRUE)
+
+unlink("docs", recursive = TRUE, force = TRUE) 
+
 dir.create("docs")
 
 shinylive::export(appdir = ".", destdir = "docs")
