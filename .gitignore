@@ -1,5 +1,5 @@
 # Ignore individual files
-*.Rproj.user
+.Rproj.user
 .Rhistory
 .RData
 .Ruserdata
@@ -15,9 +15,7 @@ archive/
 /*.html
 /*.R
 
-
 # DO NOT ignore .R files in the docs sub-directory.
 # !/*docs/.R
 # !/*app/.R
 
-.Rproj.user
