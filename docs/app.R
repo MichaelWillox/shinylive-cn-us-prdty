@@ -10,7 +10,7 @@ downloadButton <- function(...) {
  tag
 }
 
-df_clean <- readRDS("df_clean.RDS") 
+df_clean <- read.csv("df_clean.csv", fileEncoding = "UTF-8", check.names = FALSE) 
 
 # # Load pre-cleaned data
 # # Assuming 'df_clean.RDS' is in the same directory as the app.R file
