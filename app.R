@@ -9,6 +9,7 @@ downloadButton <- function(...) {
  tag$attribs$download <- NULL
  tag
 }
+
 df_clean <- readRDS("./df_clean.RDS")
 
 # # Load pre-cleaned data

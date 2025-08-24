@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 data/
-df_clean.RDS
 prep_data.R
 .html
 .qmd
@@ -11,8 +10,6 @@ Proceedure_files/
 app - Copy (2).R
 app - Copy (3).R
 app - Copy.R
-Metadata/
-Proceedure.qmd
-Proceedure.html
-prep_data.R
+CN_US_Metadata/
 Run_Shinylive_app.R
+docs/app.json
