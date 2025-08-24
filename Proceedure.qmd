@@ -5,39 +5,29 @@ format: html
 editor: visual
 ---
 
-
 ## Overview
 
 This document tracks the steps, successes, and failures involved in building and deploying a Shinylive app.
 
 ## Folder Structure Setup **Before** Running 'Run_Shinylive_app.R'.
 
-shinylive-cn-us-prdty
-├── app.R  
-├── df_clean.RDS  
-├── docs
-│   ├── app.json
-│   ├── edit
-│   ├── index.html
-│   ├── shinylive
-│   ├── sinylive-sw.js
-└── shinylive-cn-us-prdty.Rproj 
+shinylive-cn-us-prdty ├── app.R\
+├── df_clean.RDS\
+├── docs │ ├── app.json │ ├── edit │ ├── index.html │ ├── shinylive │ ├── sinylive-sw.js └── shinylive-cn-us-prdty.Rproj
 
-
-├── app.R  
-├── df_clean.RDS  
-├── data  
-│   ├── cn_us_mfp.csv  
-│   ├── cn_us_mfp.RDS  
-│   ├── cn_us_mfp.xlsx  
-├── prep_data.R  
-├── Proceedure.html  
-├── Proceedure.qmd  
-├── Proceedure.rmarkdown  
-├── Proceedure_files  
-├── Run_Shinylive_app.R  
-└── shinylive-cn-us-prdty.Rproj  
-
+├── app.R\
+├── df_clean.RDS\
+├── data\
+│ ├── cn_us_mfp.csv\
+│ ├── cn_us_mfp.RDS\
+│ ├── cn_us_mfp.xlsx\
+├── prep_data.R\
+├── Proceedure.html\
+├── Proceedure.qmd\
+├── Proceedure.rmarkdown\
+├── Proceedure_files\
+├── Run_Shinylive_app.R\
+└── shinylive-cn-us-prdty.Rproj
 
 ## Folder Structure Setup **After** Running 'Run_Shinylive_app.R'.
 
@@ -55,89 +45,50 @@ cat("📁 This is the folder structure for the Shinylive app:\n\n")
 files <- fs::dir_tree(path = root, recurse = TRUE, type = "any", n = Inf)
 ```
 
-
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 
 cat("📁 These are the individual files:\n\n")
 print(files)
 ```
 
-
-
 shinylive::export(appdir = "app", destdir = "docs")
 
 httpuv::runStaticServer("docs")
 
-
-- Set up new remote repo
- - https://github.com/MichaelWillox/shinylive-cn-us-prdty
-- Open Git
- - cd C:\Users\micha\My_Projects\shinylive-cn-us-prdty
- - git init
- - Link to Your Remote Repo If you haven’t already connected it: 
+-   Set up new remote repo
+-   https://github.com/MichaelWillox/shinylive-cn-us-prdty
+-   Open Git
+-   cd C:\Users\micha\My\_Projects\shinylive-cn-us-prdty
+-   git init
+-   Link to Your Remote Repo If you haven’t already connected it:
 
 git remote add origin https://github.com/MichaelWillox/shinylive-cn-us-prdty.git
 
-You can confirm it worked with:
-git remote -v
+You can confirm it worked with: git remote -v
 
-You'll see this:
-C:\Users\micha\My_Projects\shinylive-cn-us-prdty>git remote -v
-origin  https://github.com/MichaelWillox/shinylive-cn-us-prdty.git (fetch)
-origin  https://github.com/MichaelWillox/shinylive-cn-us-prdty.git (push)
+You'll see this: C:\Users\micha\My\_Projects\shinylive-cn-us-prdty\>git remote -v origin https://github.com/MichaelWillox/shinylive-cn-us-prdty.git (fetch) origin https://github.com/MichaelWillox/shinylive-cn-us-prdty.git (push)
 
 # Add and Commit Your Files
 
-git add .
-git commit -m "Initial commit: working Shinylive app and docs export"
+git add . git commit -m "Initial commit: working Shinylive app and docs export"
 
 # Push to GitHub
 
-git branch -M main
-git push -u origin main
+git branch -M main git push -u origin main
 
-C:\Users\micha\My_Projects\shinylive-cn-us-prdty>git push -u origin main
-To https://github.com/MichaelWillox/shinylive-cn-us-prdty.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/MichaelWillox/shinylive-cn-us-prdty.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+C:\Users\micha\My\_Projects\shinylive-cn-us-prdty\>git push -u origin main To https://github.com/MichaelWillox/shinylive-cn-us-prdty.git ! \[rejected\] main -\> main (fetch first) error: failed to push some refs to 'https://github.com/MichaelWillox/shinylive-cn-us-prdty.git' hint: Updates were rejected because the remote contains work that you do hint: not have locally. This is usually caused by another repository pushing hint: to the same ref. You may want to first integrate the remote changes hint: (e.g., 'git pull ...') before pushing again. hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 
-C:\Users\micha\My_Projects\shinylive-cn-us-prdty>git pull --rebase origin main
-remote: Enumerating objects: 3, done.
-remote: Counting objects: 100% (3/3), done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
-Unpacking objects: 100% (3/3), 1.44 KiB | 105.00 KiB/s, done.
-From https://github.com/MichaelWillox/shinylive-cn-us-prdty
- * branch            main       -> FETCH_HEAD
- * [new branch]      main       -> origin/main
-Successfully rebased and updated refs/heads/main.
+C:\Users\micha\My\_Projects\shinylive-cn-us-prdty\>git pull --rebase origin main remote: Enumerating objects: 3, done. remote: Counting objects: 100% (3/3), done. remote: Compressing objects: 100% (2/2), done. remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0) Unpacking objects: 100% (3/3), 1.44 KiB \| 105.00 KiB/s, done. From https://github.com/MichaelWillox/shinylive-cn-us-prdty \* branch main -\> FETCH_HEAD \* \[new branch\] main -\> origin/main Successfully rebased and updated refs/heads/main.
 
-C:\Users\micha\My_Projects\shinylive-cn-us-prdty>git push -u origin main
-Enumerating objects: 438, done.
-Counting objects: 100% (438/438), done.
-Delta compression using up to 12 threads
-Compressing objects: 100% (332/332), done.
-Writing objects: 100% (437/437), 111.57 MiB | 3.51 MiB/s, done.
-Total 437 (delta 17), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (17/17), done.
-To https://github.com/MichaelWillox/shinylive-cn-us-prdty.git
-   1e030a5..0993e62  main -> main
-branch 'main' set up to track 'origin/main'.
+C:\Users\micha\My\_Projects\shinylive-cn-us-prdty\>git push -u origin main Enumerating objects: 438, done. Counting objects: 100% (438/438), done. Delta compression using up to 12 threads Compressing objects: 100% (332/332), done. Writing objects: 100% (437/437), 111.57 MiB \| 3.51 MiB/s, done. Total 437 (delta 17), reused 0 (delta 0), pack-reused 0 remote: Resolving deltas: 100% (17/17), done. To https://github.com/MichaelWillox/shinylive-cn-us-prdty.git 1e030a5..0993e62 main -\> main branch 'main' set up to track 'origin/main'.
 
-C:\Users\micha\My_Projects\shinylive-cn-us-prdty>
-## What Worked
+C:\Users\micha\My\_Projects\shinylive-cn-us-prdty\> \## What Worked
 
-- Export using `shinylive export app docs`
-- Pushing to GitHub repo
-- GitHub Pages rendered the app at the correct URL
+-   Export using `shinylive export app docs`
+-   Pushing to GitHub repo
+-   GitHub Pages rendered the app at the correct URL
 
 ## What Did Not Work
 
-- Needed to use `ifelse(..., NA_real_)` to avoid divide-by-zero
-- Plot legend required `element_text()` for styling
-...
+-   Needed to use `ifelse(..., NA_real_)` to avoid divide-by-zero
+-   Plot legend required `element_text()` for styling ...

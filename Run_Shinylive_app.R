@@ -4,10 +4,17 @@ library(shinylive)
 # Create 'docs' and 'app' folders. The app folder contains app.R and df_clean.RDS
 ## Run the following in an R session to serve the app:
 
+# wipe and rebuild the deploy folder
+unlink("docs", recursive = TRUE, force = TRUE)
+dir.create("docs")
+
 shinylive::export(appdir = ".", destdir = "docs")
 
+# verify files created
+list.files("docs")
+
 ## Run the app locally:
-httpuv::runStaticServer("docs")
+httpuv::runStaticServer("docs", port = 8008, browse = TRUE)
 
 fs::dir_ls(".")
 
