@@ -1,3 +1,4 @@
+# Ignore individual files
 *.Rproj.user
 .Rhistory
 .RData
@@ -10,12 +11,12 @@ Procedure_files/
 CN_US_Metadata/
 archive/
 
-# Ignore all .R files in the repository...
-*.R
-# ...but DO NOT ignore .R files in the root directory.
-!/*.R
+# Ignore all .html and .R files in the root directory only
+/*.html
+/*.R
 
-# Ignore all .html files in the repository...
-*.html
-# ...but DO NOT ignore .html files in the root directory.
-!/*.html
+
+# DO NOT ignore .R files in the docs sub-directory.
+# !/*docs/.R
+# !/*app/.R
+
