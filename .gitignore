@@ -20,3 +20,4 @@ archive/
 # !/*docs/.R
 # !/*app/.R
 
+.Rproj.user
