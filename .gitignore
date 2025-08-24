@@ -1,11 +1,21 @@
-.Rproj.user
+*.Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-data/
-*.R
-*.html
 *.qmd
-Proceedure_files/
+
+# Sub-directories
+data/
+Procedure_files/
 CN_US_Metadata/
-*.Rproj
+archive/
+
+# Ignore all .R files in the repository...
+*.R
+# ...but DO NOT ignore .R files in the root directory.
+!/*.R
+
+# Ignore all .html files in the repository...
+*.html
+# ...but DO NOT ignore .html files in the root directory.
+!/*.html
