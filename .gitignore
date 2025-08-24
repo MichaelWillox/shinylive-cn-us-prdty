@@ -13,5 +13,6 @@ app - Copy.R
 CN_US_Metadata/
 Run_Shinylive_app.R
 docs/app.json
-Proceedure.html
+Procedure.html
+Procedure.qmd
 shinylive-cn-us-prdty.Rproj
